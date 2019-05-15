@@ -12,7 +12,7 @@ class FRules:
     AST = 1
     STL = 1
     BLK = 1
-    TO = -1
+    TOV = -1
     EJ = -1
     TD = 1
     PTS = 1
