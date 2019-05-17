@@ -5,6 +5,8 @@ from nba_api.stats.static import players
 from FRules import *
 from FPointsCalc import *
 import csv
+from pandas import *
+import time
 
 # create a list of active players
 act_plyr = players.get_active_players()
@@ -31,41 +33,36 @@ with open('fpoints_analysis.csv', 'w', newline='') as csvfile:
         # compute the difference to see who had the largest improvements in fantasy points
 
 
-        if plyr_dict["full_name"] == "Stephen Curry":
-            # overall_player_dash = playerdashboardbylastngames.PlayerDashboardByLastNGames(**{'player_id': plyr_dict['id'], 'season': '2018-19','per_mode_detailed': parameters.PerModeDetailed.per_game}).get_normalized_dict()
-            overall_player_dash = playerdashboardbylastngames.PlayerDashboardByLastNGames(plyr_dict['id'])
+        if plyr_dict["full_name"] == "Trae Young":
 
-            print(overall_player_dash.overall_player_dashboard.get_dict())
-            # # Get how many seasons of experience the player has, how many minutes per game they had, and how many games they played
-            # szns_exp = commonplayerinfo.CommonPlayerInfo(plyr_dict['id']).get_normalized_dict()['CommonPlayerInfo'][0][
-            #     'SEASON_EXP']
-            # games_played = playerdashboardbylastngames.PlayerDashboardByLastNGames(
-            #     **{'player_id': plyr_dict['id'], 'season': '2018-19',
-            #        'per_mode_detailed': parameters.PerModeDetailed.per_game}).get_normalized_dict()[
-            #     'OverallPlayerDashboard'][0]['GP']
-            # minutes_per_game = playerdashboardbylastngames.PlayerDashboardByLastNGames(
-            #     **{'player_id': plyr_dict['id'], 'season': '2018-19',
-            #        'per_mode_detailed': parameters.PerModeDetailed.per_game}).get_normalized_dict()[
-            #     'OverallPlayerDashboard'][0]['MIN']
-            #
-            # # compute how many fantasy points this player had per game for last season
-            # fpoints_1718_val = calc_fpoints_from_season(plyr_dict['id'], rules, '2017-18')
-            # dict_1718 = {plyr_dict['full_name']: fpoints_1718_val}
-            # fpoints_1718.update(dict_1718)
-            #
-            # # compute how many fantasy points they had for this season
-            # fpoints_1819_val = calc_fpoints_from_season(plyr_dict['id'], rules, '2018-19')
-            # dict_1819 = {plyr_dict['full_name']: fpoints_1819_val}
-            # fpoints_1819.update((dict_1819))
-            #
-            # # compute the difference
-            # diff_1718_1819 = fpoints_1819_val - fpoints_1718_val
-            # dict_val_diff = {plyr_dict['full_name']: diff_1718_1819}
-            # fpoints_diff.update(dict_val_diff)
-            #
-            # total_fpoints_scored = games_played * fpoints_1819_val
-            #
-            # wrtr.writerow(
-            #     [plyr_dict['full_name'], fpoints_1819_val, diff_1718_1819, szns_exp, games_played, minutes_per_game,
-            #      total_fpoints_scored])
+            # t1 = time.time()
+            # cmmn_info = commonplayerinfo.CommonPlayerInfo(plyr_dict['id'])
+            # cmmn_info_dict = cmmn_info.get_normalized_dict()
+            # available_seasons = cmmn_info_dict['AvailableSeasons']
+            # print(available_seasons)
+            # time.sleep(.1)
+            # t2 = time.time()
+            # print("time for one: {}".format(t2-t1))
 
+            plyr_dash_adv = playerdashboardbylastngames.PlayerDashboardByLastNGames(**{'player_id': plyr_dict['id'], 'measure_type_detailed': parameters.MeasureTypeDetailed.advanced, 'season': '2018-19','per_mode_detailed': parameters.PerModeDetailed.per_game})
+            plyr_dash_adv_df = plyr_dash_adv.get_data_frames()
+            plyr_dash_adv_dict = plyr_dash_adv.get_normalized_dict()
+            plyr_dash_bas = playerdashboardbylastngames.PlayerDashboardByLastNGames(**{'player_id': plyr_dict['id'], 'season': '2018-19','per_mode_detailed': parameters.PerModeDetailed.per_game})
+            plyr_dash_bas_df = plyr_dash_bas.get_data_frames()
+            plyr_dash_bas_dict = plyr_dash_bas.get_normalized_dict()
+            com_info = commonplayerinfo.CommonPlayerInfo(plyr_dict['id'])
+            com_info_df = com_info.get_data_frames()
+            com_info_dict = com_info.get_normalized_dict()
+
+            print(com_info_dict['CommonPlayerInfo'][0]['SEASON_EXP'])
+
+            # with ExcelWriter("LNGB_LNGA_CommInfo.xlsx") as writer:
+            #     for i in range(0, 1):
+            #         df = DataFrame(plyr_dash_bas_df[i])
+            #         df.to_excel(writer, sheet_name="LastNGamesBas {}".format(i+1))
+            #     for i in range(0, 1):
+            #         df = DataFrame(plyr_dash_adv_df[i])
+            #         df.to_excel(writer, sheet_name="LastNGamesAdv {}".format(i+1))
+            #     for i in range(0, len(com_info_df)):
+            #         df = DataFrame(com_info_df[i])
+            #         df.to_excel(writer, sheet_name="CommonInfo {}".format(i+1))

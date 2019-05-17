@@ -41,11 +41,15 @@ def calc_fpoints_from_game(playerID, rules, game):
 
     return fpoints
 
-def calc_fpoints_from_season(playerID, rules, season):
+def calc_fpoints_from_season(playerID, rules, season, plyr_dsh_lstNgms_norm_dict = None):
 
     # this is what will get returned at the end
     fpoints = 0.0
-    plyr_dshbrd_lst_n_gms = playerdashboardbylastngames.PlayerDashboardByLastNGames(**{'player_id': playerID, 'season': season, 'per_mode_detailed': parameters.PerModeDetailed.per_game}).get_normalized_dict()
+    if (plyr_dsh_lstNgms_norm_dict != None):
+        plyr_dshbrd_lst_n_gms = plyr_dsh_lstNgms_norm_dict
+    else:
+        plyr_dshbrd_lst_n_gms = playerdashboardbylastngames.PlayerDashboardByLastNGames(**{'player_id': playerID, 'season': season,'per_mode_detailed': parameters.PerModeDetailed.per_game}).get_normalized_dict()
+
     len_plyr_dshbrd_lst_n_gms = len(plyr_dshbrd_lst_n_gms['OverallPlayerDashboard'])
     if len_plyr_dshbrd_lst_n_gms != 1:
         print("length: {}, player {}".format(len_plyr_dshbrd_lst_n_gms, playerID))

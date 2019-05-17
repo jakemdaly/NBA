@@ -26,7 +26,7 @@ for plyr_dict in act_plyr:
     print(plyr_dict['full_name'])
     time.sleep(.2)
 print(PLAYERS)
-input()
+
 with open('fpoints_stats.csv', 'w', newline='') as csvfile:
     wrtr = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
     wrtr.writerow(['Player', 'FPoints Average', 'Improvement', 'Seasons', 'GP', 'MPG', 'Total FPoints Produced'])
