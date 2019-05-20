@@ -22,60 +22,60 @@ last_season = '2017-18'
 PLAYERS = []
 data = []
 
-# for plyr_dict in act_plyr:
-#     if plyr_dict['full_name']=='Alan Williams':
-#
-#
-#         common_player_info = commonplayerinfo.CommonPlayerInfo(plyr_dict['id']).get_normalized_dict()
-#
-#         if common_player_info['CommonPlayerInfo'][0]['SEASON_EXP'] > 0:
-#
-#             overall_player_dash = playerdashboardbylastngames.PlayerDashboardByLastNGames(**{'player_id': plyr_dict['id'], 'measure_type_detailed': parameters.MeasureTypeDetailed.advanced, 'season': this_season, 'per_mode_detailed': parameters.PerModeDetailed.per_game}).get_normalized_dict()
-#
-#             if len(overall_player_dash['OverallPlayerDashboard']) == 1:
-#                 games_played = overall_player_dash['OverallPlayerDashboard'][0]['GP']
-#                 minutes_per_game = overall_player_dash['OverallPlayerDashboard'][0]['MIN']
-#
-#                 if (games_played > 0 and minutes_per_game > 0):
-#
-#                     package = [plyr_dict, overall_player_dash, common_player_info]
-#
-#                     PLAYERS.append(package)
-#
-#         print(plyr_dict['full_name'])
-#         time.sleep(.2)
+for plyr_dict in act_plyr:
+    if plyr_dict['full_name']=='Stephen Curry':
+
+
+        common_player_info = commonplayerinfo.CommonPlayerInfo(plyr_dict['id']).get_normalized_dict()
+
+        if common_player_info['CommonPlayerInfo'][0]['SEASON_EXP'] > 0:
+
+            overall_player_dash = playerdashboardbylastngames.PlayerDashboardByLastNGames(**{'player_id': plyr_dict['id'], 'measure_type_detailed': parameters.MeasureTypeDetailed.advanced, 'season': this_season, 'per_mode_detailed': parameters.PerModeDetailed.per_game}).get_normalized_dict()
+
+            if len(overall_player_dash['OverallPlayerDashboard']) == 1:
+                games_played = overall_player_dash['OverallPlayerDashboard'][0]['GP']
+                minutes_per_game = overall_player_dash['OverallPlayerDashboard'][0]['MIN']
+
+                if (games_played > 0 and minutes_per_game > 0):
+
+                    package = [plyr_dict, overall_player_dash, common_player_info]
+
+                    PLAYERS.append(package)
+
+        print(plyr_dict['full_name'])
+        time.sleep(.2)
 
 count = 0
 
 # Loop through the active players. If they are not a rookie and played more than 30 games @ 5 MPG, add them to a separate list
-for plyr_dict in act_plyr:
-
-    print('Part 1... Percent Complete: [{}]'.format(100*count/len(act_plyr)))
-
-    # Import that the data that will allow us to look at how many seasons of experience the player has
-    common_player_info = commonplayerinfo.CommonPlayerInfo(plyr_dict['id']).get_normalized_dict()
-
-    # Filter out the rookies because they don't have data from the previous season
-    if common_player_info['CommonPlayerInfo'][0]['SEASON_EXP'] > 0:
-
-        overall_player_dash = playerdashboardbylastngames.PlayerDashboardByLastNGames(**{'player_id': plyr_dict['id'], 'measure_type_detailed': parameters.MeasureTypeDetailed.advanced, 'season': this_season, 'per_mode_detailed': parameters.PerModeDetailed.per_game}).get_normalized_dict()
-
-        # Some players who never played a game don't have anything under their dashboard... so skip these
-        if len(overall_player_dash['OverallPlayerDashboard']) == 1:
-            games_played = overall_player_dash['OverallPlayerDashboard'][0]['GP']
-            minutes_per_game = overall_player_dash['OverallPlayerDashboard'][0]['MIN']
-
-            # Excluded players that didn't play a lot of games/minutes
-            if (games_played > 30 and minutes_per_game > 5):
-
-                # Because we will use the data imported by the two calls above, we will pack this data up so that we can use it later in the program
-                package = [plyr_dict, overall_player_dash, common_player_info]
-
-                PLAYERS.append(package)
-
-    # print(plyr_dict['full_name'])
-    time.sleep(.2)
-    count = count + 1
+# for plyr_dict in act_plyr:
+#
+#     print('Part 1... Percent Complete: [{}]'.format(100*count/len(act_plyr)))
+#
+#     # Import that the data that will allow us to look at how many seasons of experience the player has
+#     common_player_info = commonplayerinfo.CommonPlayerInfo(plyr_dict['id']).get_normalized_dict()
+#
+#     # Filter out the rookies because they don't have data from the previous season
+#     if common_player_info['CommonPlayerInfo'][0]['SEASON_EXP'] > 0:
+#
+#         overall_player_dash = playerdashboardbylastngames.PlayerDashboardByLastNGames(**{'player_id': plyr_dict['id'], 'measure_type_detailed': parameters.MeasureTypeDetailed.advanced, 'season': this_season, 'per_mode_detailed': parameters.PerModeDetailed.per_game}).get_normalized_dict()
+#
+#         # Some players who never played a game don't have anything under their dashboard... so skip these
+#         if len(overall_player_dash['OverallPlayerDashboard']) == 1:
+#             games_played = overall_player_dash['OverallPlayerDashboard'][0]['GP']
+#             minutes_per_game = overall_player_dash['OverallPlayerDashboard'][0]['MIN']
+#
+#             # Excluded players that didn't play a lot of games/minutes
+#             if (games_played > 30 and minutes_per_game > 5):
+#
+#                 # Because we will use the data imported by the two calls above, we will pack this data up so that we can use it later in the program
+#                 package = [plyr_dict, overall_player_dash, common_player_info]
+#
+#                 PLAYERS.append(package)
+#
+#     # print(plyr_dict['full_name'])
+#     time.sleep(.2)
+#     count = count + 1
 
 
 # Create an FRules object
