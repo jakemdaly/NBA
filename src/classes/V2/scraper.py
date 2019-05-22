@@ -79,9 +79,9 @@ try:
             dash_bas = playerdashboardbylastngames.PlayerDashboardByLastNGames(**{'player_id': plyr['id'], 'measure_type_detailed': parameters.MeasureTypeDetailed.base, 'season': season_str, 'per_mode_detailed': parameters.PerModeDetailed.per_game})
             time.sleep(.3)
             # Only do the following data storage if the player had a dashboard of data for this season
-            if (len(dash_bas.get_normalized_dict()['OverallPlayerDashboard']) == 0):
-                # Do Nothing
-            elif:
+            if len(dash_bas.get_normalized_dict()['OverallPlayerDashboard']) == 0:
+                pass
+            else:
                 # Add one to the number of seasons the player has been in the league
                 seasons_in_league = seasons_in_league + 1
                 by_season_str = "Year{}\\".format(seasons_in_league)
